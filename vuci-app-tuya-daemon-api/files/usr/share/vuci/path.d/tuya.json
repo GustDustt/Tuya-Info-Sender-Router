@@ -1,0 +1,3 @@
+[
+    { "/tuya_f/{service_group}/{?sid}": "services/tuya" }
+]

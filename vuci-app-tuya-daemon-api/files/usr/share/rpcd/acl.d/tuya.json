@@ -1,0 +1,17 @@
+{
+  "services/tuya": {
+    "description": "Tuya App permissions",
+    "read": {
+      "api": [
+        "/tuya_f/*",
+        "/tuya_c/*"
+      ]
+    },
+    "write": {
+      "api": [
+        "/tuya_f/*",
+        "/tuya_c/*"
+      ]
+    }
+  }
+}

@@ -1,0 +1,5 @@
+config daemon 'settings'
+	option enabled '1'
+	option device_id '26b737557c5ae2e263npis'
+	option product_id 'mtvbziaxvtd43nl0'
+	option secret 'ImXEclMZ09WdQ4P2'
