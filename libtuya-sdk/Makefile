@@ -14,7 +14,6 @@ CMAKE_BINARY_SUBDIR:=build
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/cmake.mk
 
-PKG_INSTALL:=0
 
 define Package/libtuya-sdk
   SECTION:=libs
@@ -24,14 +23,19 @@ define Package/libtuya-sdk
 endef
 
 define Package/libtuya-sdk/description
-  Tuya IoT Core SDK packaged for RutOS.
+  Tuya IoT Core SDK packaged for RutOS. Built as shared libraries.
 endef
 
 CMAKE_OPTIONS += \
-    -DBUILD_SHARED_LIBS=OFF \
+    -DBUILD_SHARED_LIBS=ON \
     -DENABLE_TESTS=OFF
 
 define Build/Install/Default
+endef
+
+define Build/Prepare
+	$(call Build/Prepare/Default)
+	find $(PKG_BUILD_DIR) -name CMakeLists.txt -exec sed -i 's/STATIC/SHARED/g' {} \;
 endef
 
 define Build/InstallDev
@@ -43,12 +47,14 @@ define Build/InstallDev
 	$(CP) $(PKG_BUILD_DIR)/platform/posix/*.h $(1)/usr/include/tuya/ 2>/dev/null || true
 	
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) $(PKG_BUILD_DIR)/build/lib/*.a $(1)/usr/lib/ 2>/dev/null || true
-	$(CP) $(PKG_BUILD_DIR)/build/*.a $(1)/usr/lib/ 2>/dev/null || true
+	$(CP) $(PKG_BUILD_DIR)/build/lib/*.so* $(1)/usr/lib/ 2>/dev/null || true
+	$(CP) $(PKG_BUILD_DIR)/build/*.so* $(1)/usr/lib/ 2>/dev/null || true
 endef
 
 define Package/libtuya-sdk/install
 	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_BUILD_DIR)/build/lib/*.so* $(1)/usr/lib/ 2>/dev/null || true
+	$(CP) $(PKG_BUILD_DIR)/build/*.so* $(1)/usr/lib/ 2>/dev/null || true
 endef
 
 $(eval $(call BuildPackage,libtuya-sdk))

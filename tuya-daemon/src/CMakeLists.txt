@@ -23,15 +23,14 @@ target_include_directories(
 target_link_libraries(
     ${DEMO_NAME}
     PUBLIC
-        link_core
-        middleware_implementation
-        platform_port
-        utils_modules
-        ubus    
-        ubox    
-        ssl
-        crypto
-        pthread
+        ubus
+        ubox
+        blobmsg_json
         argp
+        utils_modules
+        platform_port
+        middleware_implementation
+        link_core
+        pthread
         m
 )
